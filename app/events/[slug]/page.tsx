@@ -45,12 +45,8 @@ const EventTags = ({ tags }: { tags: string[] }) => (
   </div>
 );
 
-const EventDetails = async ({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) => {
-  const { slug } = await params;
+const EventDetails = async ({ promise }: { promise: Promise<string> }) => {
+  const slug = await promise;
   let event;
   try {
     const request = await fetch(`${BASE_URL}/api/events/${slug}`);
@@ -180,10 +176,11 @@ const EventDetailsPage = async ({
 }) => {
   "use cache";
   cacheLife("hours");
+  const slug = params.then((p) => p.slug);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <EventDetails params={params} />
+      <EventDetails promise={slug} />
     </Suspense>
   );
 };
