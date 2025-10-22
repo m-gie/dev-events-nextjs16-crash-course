@@ -46,14 +46,14 @@ const EventTags = ({ tags }: { tags: string[] }) => (
 );
 
 const EventDetails = async ({
-  promise,
+  params,
 }: {
-  promise: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>;
 }) => {
-  const { slug } = await promise;
+  const { slug } = await params;
   let event;
   try {
-    const request = await fetch(`${BASE_URL}/api/events/${slug}`, {});
+    const request = await fetch(`${BASE_URL}/api/events/${slug}`);
 
     if (!request.ok) {
       if (request.status === 404) {
@@ -180,11 +180,10 @@ const EventDetailsPage = async ({
 }) => {
   "use cache";
   cacheLife("hours");
-  const paramsData = params.then((p) => ({ slug: p.slug }));
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <EventDetails promise={paramsData} />;
+      <EventDetails params={params} />
     </Suspense>
   );
 };
