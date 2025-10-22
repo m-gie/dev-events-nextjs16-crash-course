@@ -6,11 +6,10 @@ import { cacheLife } from "next/cache";
 const Page = async () => {
   "use cache";
   cacheLife("hours");
-  //   const response = await fetch(
-  //     `${process.env.NEXT_PUBLIC_BASE_URL}/api/events`
-  //   );
-  //   const { events } = await response.json();
-  const events = undefined;
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/events`
+  );
+  const { events } = await response.json();
 
   return (
     <section>
